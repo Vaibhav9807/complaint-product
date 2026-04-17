@@ -392,7 +392,28 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+        import { getFirestore, collection, setDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwNQskTHRJmVMZuZzusSNZrRAdeOlvVLA",
+            authDomain: "complaint-system-45aaa.firebaseapp.com",
+            projectId: "complaint-system-45aaa",
+            storageBucket: "complaint-system-45aaa.firebasestorage.app",
+            messagingSenderId: "379804933287",
+            appId: "1:379804933287:web:f4c39b6a86d9eb61d30f82",
+            measurementId: "G-CLYE5Y9ESS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Store live complaints from Firebase
+        let liveComplaints = [];
+
         document.addEventListener('DOMContentLoaded', () => {
             // --- Tab Switching Logic ---
             const tabBtns = document.querySelectorAll('.tab-btn');
@@ -400,18 +421,15 @@
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Remove active from all
                     tabBtns.forEach(b => b.classList.remove('active'));
                     sections.forEach(s => s.classList.remove('active'));
                     
-                    // Add active to clicked
                     btn.classList.add('active');
                     const target = btn.getAttribute('data-target');
                     document.getElementById(target).classList.add('active');
 
-                    // If switching to status section, load data
                     if(target === 'status-section') {
-                        renderStatusSection();
+                        renderStatusSection(document.getElementById('searchBox').value);
                     }
                 });
             });
@@ -428,6 +446,17 @@
             const finalTrackingId = document.getElementById('finalTrackingId');
             const searchBox = document.getElementById('searchBox');
 
+            // --- Realtime Firestore Listener ---
+            const complaintsQuery = query(collection(db, "complaints"), orderBy("timestamp", "desc"));
+            onSnapshot(complaintsQuery, (snapshot) => {
+                liveComplaints = [];
+                snapshot.forEach((docSnap) => {
+                    liveComplaints.push(docSnap.data());
+                });
+                // Whenever data changes, update UI
+                renderStatusSection(searchBox.value);
+            });
+
             // --- Handle Anonymous Toggle ---
             anonymousToggle.addEventListener('change', (e) => {
                 if(e.target.checked) {
@@ -438,14 +467,13 @@
             });
 
             // --- Handle Form Submission ---
-            complaintForm.addEventListener('submit', (e) => {
+            complaintForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
                 btnText.style.opacity = '0';
                 setTimeout(() => { btnText.style.display = 'none'; spinner.style.display = 'block'; }, 150);
                 submitBtn.style.pointerEvents = 'none';
 
-                // Save to localStorage
                 const isAnon = anonymousToggle.checked;
                 const newId = 'CMP-' + Math.floor(1000 + Math.random() * 9000);
                 
@@ -458,26 +486,33 @@
                     subject: document.getElementById('subject').value,
                     details: document.getElementById('details').value,
                     status: 'Pending',
-                    date: new Date().toLocaleDateString()
+                    date: new Date().toLocaleDateString(),
+                    timestamp: Date.now() // Important for sorting
                 };
 
-                let loadDB = JSON.parse(localStorage.getItem('campus_complaints') || '[]');
-                loadDB.push(newComplaint);
-                localStorage.setItem('campus_complaints', JSON.stringify(loadDB));
+                try {
+                    // Send to Firebase!
+                    await setDoc(doc(db, "complaints", newId), newComplaint);
 
-                // Finalize UI
-                setTimeout(() => {
+                    // Finalize UI
+                    setTimeout(() => {
+                        spinner.style.display = 'none';
+                        btnText.style.display = 'block';
+                        setTimeout(() => btnText.style.opacity = '1', 50);
+                        submitBtn.style.pointerEvents = 'all';
+                        
+                        finalTrackingId.textContent = newId;
+                        successOverlay.classList.add('active');
+                    }, 500);
+                    
+                } catch(error) {
+                    console.error("Error saving to Firebase:", error);
+                    alert("Failed to submit complaint. Please check your connection.");
                     spinner.style.display = 'none';
                     btnText.style.display = 'block';
-                    setTimeout(() => btnText.style.opacity = '1', 50);
+                    btnText.style.opacity = '1';
                     submitBtn.style.pointerEvents = 'all';
-                    
-                    finalTrackingId.textContent = newId;
-                    successOverlay.classList.add('active');
-                    
-                    // Render status in background to update stats
-                    renderStatusSection(); 
-                }, 1500);
+                }
             });
 
             // --- Reset Form ---
@@ -493,7 +528,7 @@
             // --- Render Status Section & Handle Search ---
             function renderStatusSection(filterText = '') {
                 const listContainer = document.getElementById('publicComplaintsList');
-                const complaints = JSON.parse(localStorage.getItem('campus_complaints') || '[]');
+                const complaints = liveComplaints; // Pull from Firebase cache
                 
                 // Update Top Stats
                 document.getElementById('ms-total').textContent = complaints.length;
@@ -506,8 +541,8 @@
                 }
 
                 // Filter logic
-                let filtered = complaints.slice().reverse(); // Newest first
-                if (filterText.trim() !== '') {
+                let filtered = complaints; // Already sorted newest first by Firestore
+                if (filterText && filterText.trim() !== '') {
                     const text = filterText.toLowerCase();
                     filtered = filtered.filter(c => 
                         c.id.toLowerCase().includes(text) || 
@@ -542,8 +577,8 @@
             searchBox.addEventListener('keyup', (e) => {
                 renderStatusSection(e.target.value);
             });
-
-            // Initial render call to populate stats
+            
+            // Initial render
             renderStatusSection();
         });
     </script>
