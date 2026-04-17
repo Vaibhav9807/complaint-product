@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Complaints</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --bg-dark: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(30, 41, 59, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(15, 23, 42, 0.6);
+            
+            --status-pending: #f59e0b;
+            --status-progress: #3b82f6;
+            --status-resolved: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            min-height: 100vh;
+            color: var(--text-main);
+            padding: 2rem;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(to right, #a78bfa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .complaints-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .complaint-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+
+        .complaint-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .id-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .card-body {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1rem;
+        }
+
+        select.status-dropdown {
+            background: var(--bg-dark);
+            color: white;
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            background: var(--glass-bg);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Status Colors */
+        .status-Pending { color: var(--status-pending); background: rgba(245, 158, 11, 0.1); }
+        .status-In-Progress { color: var(--status-progress); background: rgba(59, 130, 246, 0.1); }
+        .status-Resolved { color: var(--status-resolved); background: rgba(16, 185, 129, 0.1); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+        <button onclick="clearAll()" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Clear All Data</button>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-title">Total Complaints</div>
+            <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Pending</div>
+            <div class="stat-value" id="statPending" style="color: var(--status-pending)">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Resolved</div>
+            <div class="stat-value" id="statResolved" style="color: var(--status-resolved)">0</div>
+        </div>
+    </div>
+
+    <div class="complaints-list" id="complaintsContainer">
+        <!-- Complaints will be injected here -->
+    </div>
+
+    <script>
+        function loadComplaints() {
+            const container = document.getElementById('complaintsContainer');
+            const complaints = JSON.parse(localStorage.getItem('campus_complaints') || '[]');
+            
+            // Update Stats
+            document.getElementById('statTotal').innerText = complaints.length;
+            document.getElementById('statPending').innerText = complaints.filter(c => c.status === 'Pending').length;
+            document.getElementById('statResolved').innerText = complaints.filter(c => c.status === 'Resolved').length;
+
+            if(complaints.length === 0) {
+                container.innerHTML = `<div class="empty-state"><h3>No complaints logged yet.</h3><p>They will appear here once someone submits the form.</p></div>`;
+                return;
+            }
+
+            // Reverse to show newest first
+            container.innerHTML = complaints.slice().reverse().map(c => `
+                <div class="complaint-card">
+                    <div class="card-header">
+                        <span class="id-badge">${c.id || 'N/A'}</span>
+                        <span class="date">${c.date || 'Unknown Date'}</span>
+                    </div>
+                    <div class="card-title">${c.subject}</div>
+                    <div class="card-meta">
+                        <span><strong>Category:</strong> ${c.category}</span>
+                        <span><strong>Dept:</strong> ${c.department}</span>
+                        <span><strong>By:</strong> ${c.name} (${c.studentId})</span>
+                    </div>
+                    <div class="card-body">
+                        ${c.details}
+                    </div>
+                    <div class="card-footer">
+                        <span class="status-badge status-${c.status.replace(' ', '-')}">${c.status}</span>
+                        <div>
+                            <select class="status-dropdown" onchange="updateStatus('${c.id}', this.value)">
+                                <option value="Pending" ${c.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="In Progress" ${c.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                <option value="Resolved" ${c.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStatus(id, newStatus) {
+            let complaints = JSON.parse(localStorage.getItem('campus_complaints') || '[]');
+            const index = complaints.findIndex(c => c.id === id);
+            if(index !== -1) {
+                complaints[index].status = newStatus;
+                localStorage.setItem('campus_complaints', JSON.stringify(complaints));
+                loadComplaints(); // Reload UI
+            }
+        }
+
+        function clearAll() {
+            if(confirm("Are you sure you want to delete all stored complaints?")) {
+                localStorage.removeItem('campus_complaints');
+                loadComplaints();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadComplaints);
+    </script>
+</body>
+</html>
