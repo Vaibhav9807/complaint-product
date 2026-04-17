@@ -211,69 +211,110 @@
         <!-- Complaints will be injected here -->
     </div>
 
-    <script>
-        function loadComplaints() {
-            const container = document.getElementById('complaintsContainer');
-            const complaints = JSON.parse(localStorage.getItem('campus_complaints') || '[]');
-            
-            // Update Stats
-            document.getElementById('statTotal').innerText = complaints.length;
-            document.getElementById('statPending').innerText = complaints.filter(c => c.status === 'Pending').length;
-            document.getElementById('statResolved').innerText = complaints.filter(c => c.status === 'Resolved').length;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+        import { getFirestore, collection, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
-            if(complaints.length === 0) {
-                container.innerHTML = `<div class="empty-state"><h3>No complaints logged yet.</h3><p>They will appear here once someone submits the form.</p></div>`;
-                return;
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwNQskTHRJmVMZuZzusSNZrRAdeOlvVLA",
+            authDomain: "complaint-system-45aaa.firebaseapp.com",
+            projectId: "complaint-system-45aaa",
+            storageBucket: "complaint-system-45aaa.firebasestorage.app",
+            messagingSenderId: "379804933287",
+            appId: "1:379804933287:web:f4c39b6a86d9eb61d30f82",
+            measurementId: "G-CLYE5Y9ESS"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Store live data
+        let liveComplaints = [];
+
+        // Attach functions to window so inline onclick handlers in HTML still work
+        window.updateStatus = async function(id, newStatus) {
+            try {
+                await updateDoc(doc(db, "complaints", id), {
+                    status: newStatus
+                });
+            } catch (error) {
+                console.error("Error updating status:", error);
+                alert("Failed to update status.");
             }
+        };
 
-            // Reverse to show newest first
-            container.innerHTML = complaints.slice().reverse().map(c => `
-                <div class="complaint-card">
-                    <div class="card-header">
-                        <span class="id-badge">${c.id || 'N/A'}</span>
-                        <span class="date">${c.date || 'Unknown Date'}</span>
-                    </div>
-                    <div class="card-title">${c.subject}</div>
-                    <div class="card-meta">
-                        <span><strong>Category:</strong> ${c.category}</span>
-                        <span><strong>Dept:</strong> ${c.department}</span>
-                        <span><strong>By:</strong> ${c.name} (${c.studentId})</span>
-                    </div>
-                    <div class="card-body">
-                        ${c.details}
-                    </div>
-                    <div class="card-footer">
-                        <span class="status-badge status-${c.status.replace(' ', '-')}">${c.status}</span>
-                        <div>
-                            <select class="status-dropdown" onchange="updateStatus('${c.id}', this.value)">
-                                <option value="Pending" ${c.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                                <option value="In Progress" ${c.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
-                                <option value="Resolved" ${c.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
-                            </select>
+        window.clearAll = async function() {
+            if(confirm("Are you sure you want to delete ALL complaints from the cloud database?")) {
+                try {
+                    const snap = await getDocs(collection(db, "complaints"));
+                    snap.forEach(async (document) => {
+                        await deleteDoc(doc(db, "complaints", document.id));
+                    });
+                } catch(error) {
+                    console.error("Error clearing data:", error);
+                    alert("Failed to clear data.");
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('complaintsContainer');
+
+            // Real-time listener for database
+            const complaintsQuery = query(collection(db, "complaints"), orderBy("timestamp", "desc"));
+            
+            onSnapshot(complaintsQuery, (snapshot) => {
+                liveComplaints = [];
+                snapshot.forEach((docSnap) => {
+                    liveComplaints.push(docSnap.data());
+                });
+                renderAdminUI();
+            });
+
+            function renderAdminUI() {
+                const complaints = liveComplaints;
+                
+                // Update Stats
+                document.getElementById('statTotal').innerText = complaints.length;
+                document.getElementById('statPending').innerText = complaints.filter(c => c.status === 'Pending').length;
+                document.getElementById('statResolved').innerText = complaints.filter(c => c.status === 'Resolved').length;
+
+                if(complaints.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><h3>No complaints logged yet.</h3><p>They will appear here once someone submits the form.</p></div>`;
+                    return;
+                }
+
+                // Render list
+                container.innerHTML = complaints.map(c => `
+                    <div class="complaint-card">
+                        <div class="card-header">
+                            <span class="id-badge">${c.id || 'N/A'}</span>
+                            <span class="date">${c.date || 'Unknown Date'}</span>
+                        </div>
+                        <div class="card-title">${c.subject}</div>
+                        <div class="card-meta">
+                            <span><strong>Category:</strong> ${c.category}</span>
+                            <span><strong>Dept:</strong> ${c.department}</span>
+                            <span><strong>By:</strong> ${c.name} (${c.studentId})</span>
+                        </div>
+                        <div class="card-body">
+                            ${c.details}
+                        </div>
+                        <div class="card-footer">
+                            <span class="status-badge status-${c.status.replace(' ', '-')}">${c.status}</span>
+                            <div>
+                                <select class="status-dropdown" onchange="updateStatus('${c.id}', this.value)">
+                                    <option value="Pending" ${c.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="In Progress" ${c.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                    <option value="Resolved" ${c.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
-        }
-
-        function updateStatus(id, newStatus) {
-            let complaints = JSON.parse(localStorage.getItem('campus_complaints') || '[]');
-            const index = complaints.findIndex(c => c.id === id);
-            if(index !== -1) {
-                complaints[index].status = newStatus;
-                localStorage.setItem('campus_complaints', JSON.stringify(complaints));
-                loadComplaints(); // Reload UI
+                `).join('');
             }
-        }
-
-        function clearAll() {
-            if(confirm("Are you sure you want to delete all stored complaints?")) {
-                localStorage.removeItem('campus_complaints');
-                loadComplaints();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadComplaints);
+        });
     </script>
 </body>
 </html>
