@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
             --glass-bg: rgba(30, 41, 59, 0.6);
             --glass-border: rgba(255, 255, 255, 0.1);
             --card-bg: rgba(15, 23, 42, 0.6);
-            
+
             --status-pending: #f59e0b;
             --status-progress: #3b82f6;
             --status-resolved: #10b981;
@@ -32,7 +33,7 @@
             min-height: 100vh;
             color: var(--text-main);
             padding: 2rem;
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
             background-attachment: fixed;
@@ -97,7 +98,7 @@
 
         .complaint-card:hover {
             transform: translateY(-2px);
-            border-color: rgba(255,255,255,0.2);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .card-header {
@@ -179,17 +180,30 @@
         }
 
         /* Status Colors */
-        .status-Pending { color: var(--status-pending); background: rgba(245, 158, 11, 0.1); }
-        .status-In-Progress { color: var(--status-progress); background: rgba(59, 130, 246, 0.1); }
-        .status-Resolved { color: var(--status-resolved); background: rgba(16, 185, 129, 0.1); }
+        .status-Pending {
+            color: var(--status-pending);
+            background: rgba(245, 158, 11, 0.1);
+        }
 
+        .status-In-Progress {
+            color: var(--status-progress);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .status-Resolved {
+            color: var(--status-resolved);
+            background: rgba(16, 185, 129, 0.1);
+        }
     </style>
 </head>
+
 <body>
 
     <div class="header">
         <h1>Admin Dashboard</h1>
-        <button onclick="clearAll()" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Clear All Data</button>
+        <button onclick="clearAll()"
+            style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Clear
+            All Data</button>
     </div>
 
     <div class="stats-grid">
@@ -233,7 +247,7 @@
         let liveComplaints = [];
 
         // Attach functions to window so inline onclick handlers in HTML still work
-        window.updateStatus = async function(id, newStatus) {
+        window.updateStatus = async function (id, newStatus) {
             try {
                 await updateDoc(doc(db, "complaints", id), {
                     status: newStatus
@@ -244,14 +258,14 @@
             }
         };
 
-        window.clearAll = async function() {
-            if(confirm("Are you sure you want to delete ALL complaints from the cloud database?")) {
+        window.clearAll = async function () {
+            if (confirm("Are you sure you want to delete ALL complaints from the cloud database?")) {
                 try {
                     const snap = await getDocs(collection(db, "complaints"));
                     snap.forEach(async (document) => {
                         await deleteDoc(doc(db, "complaints", document.id));
                     });
-                } catch(error) {
+                } catch (error) {
                     console.error("Error clearing data:", error);
                     alert("Failed to clear data.");
                 }
@@ -263,7 +277,7 @@
 
             // Real-time listener for database
             const complaintsQuery = query(collection(db, "complaints"), orderBy("timestamp", "desc"));
-            
+
             onSnapshot(complaintsQuery, (snapshot) => {
                 liveComplaints = [];
                 snapshot.forEach((docSnap) => {
@@ -274,13 +288,13 @@
 
             function renderAdminUI() {
                 const complaints = liveComplaints;
-                
+
                 // Update Stats
                 document.getElementById('statTotal').innerText = complaints.length;
                 document.getElementById('statPending').innerText = complaints.filter(c => c.status === 'Pending').length;
                 document.getElementById('statResolved').innerText = complaints.filter(c => c.status === 'Resolved').length;
 
-                if(complaints.length === 0) {
+                if (complaints.length === 0) {
                     container.innerHTML = `<div class="empty-state"><h3>No complaints logged yet.</h3><p>They will appear here once someone submits the form.</p></div>`;
                     return;
                 }
@@ -296,7 +310,7 @@
                         <div class="card-meta">
                             <span><strong>Category:</strong> ${c.category}</span>
                             <span><strong>Dept:</strong> ${c.department}</span>
-                            <span><strong>By:</strong> ${c.name} (${c.studentId})</span>
+                            <span><strong>By:</strong> ${c.name} (${c.role ? c.role + ' - ' : ''}ID: ${c.userId || c.studentId || 'N/A'})</span>
                         </div>
                         <div class="card-body">
                             ${c.details}
@@ -317,4 +331,5 @@
         });
     </script>
 </body>
+
 </html>
