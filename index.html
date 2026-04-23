@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +37,7 @@
             color: var(--text-main);
             position: relative;
             overflow-x: hidden;
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.15) 0px, transparent 50%);
             background-attachment: fixed;
@@ -49,12 +50,34 @@
             opacity: 0.6;
             animation: float 10s infinite ease-in-out alternate;
         }
-        .blob-1 { top: 5%; left: 10%; width: 350px; height: 350px; background: rgba(139, 92, 246, 0.35); border-radius: 50%; }
-        .blob-2 { bottom: 5%; right: 10%; width: 400px; height: 400px; background: rgba(16, 185, 129, 0.25); border-radius: 50%; animation-delay: -5s; }
+
+        .blob-1 {
+            top: 5%;
+            left: 10%;
+            width: 350px;
+            height: 350px;
+            background: rgba(139, 92, 246, 0.35);
+            border-radius: 50%;
+        }
+
+        .blob-2 {
+            bottom: 5%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(16, 185, 129, 0.25);
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
 
         @keyframes float {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-50px) scale(1.1); }
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            100% {
+                transform: translateY(-50px) scale(1.1);
+            }
         }
 
         .container {
@@ -74,16 +97,33 @@
             margin: auto;
         }
 
-        @keyframes slideUp { to { transform: translateY(0); opacity: 1; } }
-
-        .header { text-align: center; margin-bottom: 2rem; }
-        .header h1 {
-            font-size: 2.75rem; font-weight: 700;
-            background: linear-gradient(to right, #a78bfa, #34d399, #60a5fa);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem; letter-spacing: -0.5px;
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
-        .header p { color: var(--text-muted); font-size: 1.1rem; font-weight: 300; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #a78bfa, #34d399, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
 
         /* Tabs Navigation */
         .tabs-container {
@@ -114,142 +154,570 @@
             color: white;
             box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
         }
-        
-        .tab-btn:hover:not(.active) { color: white; background: rgba(255, 255, 255, 0.05); }
+
+        .tab-btn:hover:not(.active) {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
 
         .section {
             display: none;
             animation: fadeIn 0.5s ease forwards;
         }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* Form Elements */
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .form-group { margin-bottom: 1.5rem; position: relative; }
-        label { display: block; margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--text-main); font-weight: 500; }
-        input[type="text"], input[type="email"], select, textarea {
-            width: 100%; padding: 1rem 1.25rem; background: var(--input-bg);
-            border: 1px solid var(--glass-border); border-radius: 12px; color: white; font-size: 1rem;
-            transition: all 0.3s ease; outline: none;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
         }
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary); background: rgba(15, 23, 42, 0.8);
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            background: rgba(15, 23, 42, 0.8);
             box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
         }
-        input::placeholder, textarea::placeholder { color: #475569; }
-        textarea { resize: vertical; min-height: 120px; }
-        select option { background: var(--bg-dark); color: white; padding: 10px; }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #475569;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        select option {
+            background: var(--bg-dark);
+            color: white;
+            padding: 10px;
+        }
 
         /* Anonymous Toggle Settings */
         .anonymous-toggle {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 1.25rem; background: linear-gradient(145deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
-            border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 1.5rem; transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
         }
-        .switch-label { display: flex; flex-direction: column; gap: 0.25rem; }
-        .switch-text { font-size: 1.05rem; font-weight: 600; color: #fff; }
-        .switch-desc { font-size: 0.85rem; color: var(--text-muted); }
-        .switch { position: relative; display: inline-block; width: 52px; height: 30px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.15); transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background-color: white; transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55); border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary); box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
-        input:checked + .slider:before { transform: translateX(22px); }
 
-        .personal-info { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; max-height: 500px; opacity: 1; transform: translateY(0); }
-        .personal-info.hidden { max-height: 0; opacity: 0; margin: 0; transform: translateY(-10px); pointer-events: none; }
+        .switch-label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .switch-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .switch-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.15);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(22px);
+        }
+
+        .personal-info {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .personal-info.hidden {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
 
         .btn-submit {
-            width: 100%; padding: 1.1rem; background: linear-gradient(135deg, var(--primary), #a855f7);
-            color: white; border: none; border-radius: 12px; font-size: 1.15rem; font-weight: 600;
-            cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center;
-            gap: 0.75rem; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); position: relative; overflow: hidden; margin-top: 1rem;
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
         }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5); }
-        .btn-submit:active { transform: translateY(1px); }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(1px);
+        }
+
         .btn-submit .spinner {
-            display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite;
+            display: none;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         .success-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); border-radius: 24px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.5s ease; z-index: 10;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 10;
         }
-        .success-overlay.active { opacity: 1; pointer-events: all; }
-        .success-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--secondary), #34d399); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; transform: scale(0); box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
-        .success-overlay.active .success-icon { transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s; transform: scale(1); }
-        .success-icon svg { width: 40px; height: 40px; color: white; }
-        .success-text { font-size: 1.75rem; font-weight: 700; color: white; margin-bottom: 0.5rem; transform: translateY(20px); opacity: 0; transition: all 0.5s ease 0.5s; }
-        .success-overlay.active .success-text { transform: translateY(0); opacity: 1; }
-        .success-subtext { color: var(--text-muted); text-align: center; font-size: 1.05rem; max-width: 80%; transform: translateY(20px); opacity: 0; transition: all 0.5s ease 0.6s; margin-bottom: 1.5rem; }
-        .success-overlay.active .success-subtext { transform: translateY(0); opacity: 1; }
-        
+
+        .success-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary), #34d399);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            transform: scale(0);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .success-overlay.active .success-icon {
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s;
+            transform: scale(1);
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .success-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.5s;
+        }
+
+        .success-overlay.active .success-text {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .success-subtext {
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 1.05rem;
+            max-width: 80%;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.6s;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-overlay.active .success-subtext {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         /* New Tracking ID Box inside Success Overlay */
         .tracking-id-box {
-            background: rgba(139, 92, 246, 0.15); border: 1px dashed var(--primary); border-radius: 12px;
-            padding: 1rem 2rem; display: flex; flex-direction: column; align-items: center; 
-            transform: translateY(20px); opacity: 0; transition: all 0.5s ease 0.65s;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px dashed var(--primary);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.65s;
         }
-        .success-overlay.active .tracking-id-box { transform: translateY(0); opacity: 1; }
-        .tracking-id-box span { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.25rem; }
-        .tracking-id-box strong { font-size: 1.5rem; color: #a78bfa; font-weight: 700; letter-spacing: 1px; }
+
+        .success-overlay.active .tracking-id-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .tracking-id-box span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .tracking-id-box strong {
+            font-size: 1.5rem;
+            color: #a78bfa;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
 
         .btn-reset {
-            margin-top: 2rem; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white;
-            padding: 0.85rem 2rem; border-radius: 10px; cursor: pointer; font-weight: 500; font-size: 1rem;
-            transition: all 0.3s ease; transform: translateY(20px); opacity: 0;
+            margin-top: 2rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.85rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
         }
-        .success-overlay.active .btn-reset { transition: all 0.5s ease 0.7s; transform: translateY(0); opacity: 1; }
-        .btn-reset:hover { background: rgba(255,255,255,0.05); border-color: white; transform: translateY(-2px); }
+
+        .success-overlay.active .btn-reset {
+            transition: all 0.5s ease 0.7s;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: white;
+            transform: translateY(-2px);
+        }
 
         /* Public Status Dashboard Styles */
-        .status-stats { display: flex; gap: 1rem; margin-bottom: 2rem; }
-        .mini-stat { flex: 1; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 1.5rem 1rem; border-radius: 16px; text-align: center; }
-        .mini-stat .val { font-size: 2rem; font-weight: 700; color: white; margin-bottom: 0.25rem; }
-        .mini-stat .lbl { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+        .status-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-        .search-container { margin-bottom: 2rem; position: relative; }
-        .search-input { width: 100%; padding: 1.25rem 1.5rem; padding-left: 3rem; background: var(--input-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: white; font-size: 1.05rem; transition: all 0.3s ease; }
-        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15); }
-        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: #64748b; }
+        .mini-stat {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem 1rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .mini-stat .val {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .mini-stat .lbl {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            padding-left: 3rem;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: #64748b;
+        }
 
         .public-complaint-card {
-            background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px;
-            padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
         }
-        .public-complaint-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .pc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-        .pc-id { background: rgba(139, 92, 246, 0.15); color: #a78bfa; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
-        .pc-date { color: var(--text-muted); font-size: 0.9rem; }
-        .pc-title { font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; }
-        .pc-meta { display: flex; gap: 1.5rem; font-size: 0.9rem; color: #94a3b8; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1.25rem; }
-        .pc-meta strong { color: #cbd5e1; }
-        .pc-footer { display: flex; justify-content: space-between; align-items: center; }
-        .badge-status { display: inline-flex; align-items: center; gap: 6px; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
-        .badge-status::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; }
-        
-        .status-Pending { color: #fbbf24; background: rgba(245, 158, 11, 0.1); }
-        .status-Pending::before { background-color: #fbbf24; }
-        .status-In-Progress { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
-        .status-In-Progress::before { background-color: #60a5fa; }
-        .status-Resolved { color: #34d399; background: rgba(16, 185, 129, 0.1); }
-        .status-Resolved::before { background-color: #34d399; }
-        
-        .empty-state { text-align: center; padding: 3rem; background: var(--card-bg); border-radius: 16px; border: 1px dashed var(--glass-border); color: var(--text-muted); }
+
+        .public-complaint-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .pc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .pc-id {
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .pc-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .pc-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .pc-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 1.25rem;
+        }
+
+        .pc-meta strong {
+            color: #cbd5e1;
+        }
+
+        .pc-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-status::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-Pending {
+            color: #fbbf24;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .status-Pending::before {
+            background-color: #fbbf24;
+        }
+
+        .status-In-Progress {
+            color: #60a5fa;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .status-In-Progress::before {
+            background-color: #60a5fa;
+        }
+
+        .status-Resolved {
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .status-Resolved::before {
+            background-color: #34d399;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px dashed var(--glass-border);
+            color: var(--text-muted);
+        }
 
         @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; gap: 0; }
-            .container { padding: 1.5rem; }
-            .header h1 { font-size: 2.25rem; }
-            .pc-meta { flex-direction: column; gap: 0.5rem; }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2.25rem;
+            }
+
+            .pc-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
         }
+    
     </style>
 </head>
+
 <body>
 
     <div class="blob blob-1"></div>
@@ -286,15 +754,22 @@
                 <div class="personal-info" id="personalInfoGroups">
                     <div class="form-row">
                         <div class="form-group">
+                            <label for="userRole">I am a</label>
+                            <select id="userRole">
+                                <option value="Student" selected>Student</option>
+                                <option value="Teacher">Teacher / Faculty</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="fullName">Full Name</label>
                             <input type="text" id="fullName" placeholder="Name">
                         </div>
-                        <div class="form-group">
-                            <label for="studentId">Student ID / Roll No</label>
-                            <input type="text" id="studentId" placeholder="e.g. 202501040244">
-                        </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-group">
+                            <label id="userIdLabel" for="userId">Student ID / Roll No</label>
+                            <input type="text" id="userId" placeholder="e.g. 202501040244">
+                        </div>
                         <div class="form-group">
                             <label for="department">Department</label>
                             <select id="department">
@@ -306,6 +781,8 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-row" id="yearGroupContainer">
                         <div class="form-group">
                             <label for="year">Year of Study</label>
                             <select id="year">
@@ -316,6 +793,7 @@
                                 <option value="4">4th Year</option>
                             </select>
                         </div>
+                        <div class="form-group" style="opacity: 0; pointer-events: none;"></div>
                     </div>
                 </div>
 
@@ -355,19 +833,25 @@
                     <div class="val" id="ms-total">0</div>
                     <div class="lbl">Total Submissions</div>
                 </div>
-                <div class="mini-stat" style="background: rgba(245, 158, 11, 0.05); border-color: rgba(245, 158, 11, 0.2);">
+                <div class="mini-stat"
+                    style="background: rgba(245, 158, 11, 0.05); border-color: rgba(245, 158, 11, 0.2);">
                     <div class="val" id="ms-pending" style="color: #fbbf24;">0</div>
                     <div class="lbl">Pending</div>
                 </div>
-                <div class="mini-stat" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+                <div class="mini-stat"
+                    style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
                     <div class="val" id="ms-resolved" style="color: #34d399;">0</div>
                     <div class="lbl">Resolved</div>
                 </div>
             </div>
 
             <div class="search-container">
-                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" class="search-input" id="searchBox" placeholder="Track by Complaint ID (e.g. CMP-1234)">
+                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" class="search-input" id="searchBox"
+                    placeholder="Track by Complaint ID (e.g. CMP-1234)">
             </div>
 
             <div id="publicComplaintsList">
@@ -378,11 +862,14 @@
         <!-- Success overlay covering the form -->
         <div class="success-overlay" id="successOverlay">
             <div class="success-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
             </div>
             <h2 class="success-text">Complaint Lodged</h2>
-            <p class="success-subtext">Your voice has been heard. You can track your complaint status using the ID below.</p>
-            
+            <p class="success-subtext">Your voice has been heard. You can track your complaint status using the ID
+                below.</p>
+
             <div class="tracking-id-box">
                 <span>Your Reference ID</span>
                 <strong id="finalTrackingId">CMP-0000</strong>
@@ -423,12 +910,12 @@
                 btn.addEventListener('click', () => {
                     tabBtns.forEach(b => b.classList.remove('active'));
                     sections.forEach(s => s.classList.remove('active'));
-                    
+
                     btn.classList.add('active');
                     const target = btn.getAttribute('data-target');
                     document.getElementById(target).classList.add('active');
 
-                    if(target === 'status-section') {
+                    if (target === 'status-section') {
                         renderStatusSection(document.getElementById('searchBox').value);
                     }
                 });
@@ -459,28 +946,48 @@
 
             // --- Handle Anonymous Toggle ---
             anonymousToggle.addEventListener('change', (e) => {
-                if(e.target.checked) {
+                if (e.target.checked) {
                     personalInfoSection.classList.add('hidden');
                 } else {
                     personalInfoSection.classList.remove('hidden');
                 }
             });
 
+            // --- Handle Role Change UI ---
+            const userRole = document.getElementById('userRole');
+            const userIdLabel = document.getElementById('userIdLabel');
+            const userId = document.getElementById('userId');
+            const yearGroupContainer = document.getElementById('yearGroupContainer');
+
+            userRole.addEventListener('change', (e) => {
+                if (e.target.value === 'Teacher') {
+                    userIdLabel.textContent = 'Employee ID';
+                    userId.placeholder = 'e.g. EMP-101';
+                    yearGroupContainer.style.display = 'none';
+                } else {
+                    userIdLabel.textContent = 'Student ID / Roll No';
+                    userId.placeholder = 'e.g. 202501040244';
+                    yearGroupContainer.style.display = 'grid'; // .form-row uses display: grid
+                }
+            });
+
             // --- Handle Form Submission ---
             complaintForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
+
                 btnText.style.opacity = '0';
                 setTimeout(() => { btnText.style.display = 'none'; spinner.style.display = 'block'; }, 150);
                 submitBtn.style.pointerEvents = 'none';
 
                 const isAnon = anonymousToggle.checked;
                 const newId = 'CMP-' + Math.floor(1000 + Math.random() * 9000);
-                
+                const roleValue = userRole.value;
+
                 const newComplaint = {
                     id: newId,
-                    name: isAnon ? 'Anonymous Student' : (document.getElementById('fullName').value || 'Not provided'),
-                    studentId: isAnon ? 'Hidden' : (document.getElementById('studentId').value || 'Not provided'),
+                    name: isAnon ? ('Anonymous ' + roleValue) : (document.getElementById('fullName').value || 'Not provided'),
+                    role: isAnon ? 'Hidden' : roleValue,
+                    userId: isAnon ? 'Hidden' : (userId.value || 'Not provided'),
                     department: isAnon ? 'Hidden' : (document.getElementById('department').value || 'Not provided'),
                     category: document.getElementById('category').value,
                     subject: document.getElementById('subject').value,
@@ -500,12 +1007,12 @@
                         btnText.style.display = 'block';
                         setTimeout(() => btnText.style.opacity = '1', 50);
                         submitBtn.style.pointerEvents = 'all';
-                        
+
                         finalTrackingId.textContent = newId;
                         successOverlay.classList.add('active');
                     }, 500);
-                    
-                } catch(error) {
+
+                } catch (error) {
                     console.error("Error saving to Firebase:", error);
                     alert("Failed to submit complaint. Please check your connection.");
                     spinner.style.display = 'none';
@@ -519,7 +1026,7 @@
             resetBtn.addEventListener('click', () => {
                 successOverlay.classList.remove('active');
                 complaintForm.reset();
-                if(anonymousToggle.checked) {
+                if (anonymousToggle.checked) {
                     personalInfoSection.classList.remove('hidden');
                     anonymousToggle.checked = false;
                 }
@@ -529,7 +1036,7 @@
             function renderStatusSection(filterText = '') {
                 const listContainer = document.getElementById('publicComplaintsList');
                 const complaints = liveComplaints; // Pull from Firebase cache
-                
+
                 // Update Top Stats
                 document.getElementById('ms-total').textContent = complaints.length;
                 document.getElementById('ms-pending').textContent = complaints.filter(c => c.status === 'Pending').length;
@@ -544,8 +1051,8 @@
                 let filtered = complaints; // Already sorted newest first by Firestore
                 if (filterText && filterText.trim() !== '') {
                     const text = filterText.toLowerCase();
-                    filtered = filtered.filter(c => 
-                        c.id.toLowerCase().includes(text) || 
+                    filtered = filtered.filter(c =>
+                        c.id.toLowerCase().includes(text) ||
                         c.subject.toLowerCase().includes(text)
                     );
                 }
@@ -565,7 +1072,7 @@
                         <div class="pc-title">${c.subject}</div>
                         <div class="pc-meta">
                             <span><strong>Category:</strong> ${c.category}</span>
-                            <span><strong>Submitted By:</strong> ${c.name}</span>
+                            <span><strong>Submitted By:</strong> ${c.name} ${c.role && c.role !== 'Hidden' ? `(${c.role})` : ''}</span>
                         </div>
                         <div class="pc-footer">
                             <span class="badge-status status-${c.status.replace(' ', '-')}">${c.status}</span>
@@ -577,10 +1084,12 @@
             searchBox.addEventListener('keyup', (e) => {
                 renderStatusSection(e.target.value);
             });
-            
+
             // Initial render
             renderStatusSection();
         });
+    
     </script>
 </body>
+
 </html>
